@@ -1,0 +1,62 @@
+<script src="js/d3.v3.min.js"></script>
+
+
+<body>
+	<script>
+
+		width = 1500
+	    height = 1500
+
+		canvas = d3.select("body")
+				   .append("svg")
+				   .attr("width", width)
+				   .attr("height", height)
+		
+
+
+		tree = d3.layout.tree()
+						.size([400,400])
+
+
+		d3.json("data/tree.js", function (family){
+			nodes = tree.nodes(family)
+			links = tree.links(nodes)
+
+			node = canvas.selectAll(".node")
+			 .data(nodes)
+			 .enter()
+			 	.append("g")
+			 		.attr("class", "node")
+			 		.attr("transform", function (t){
+			 			return "translate(" + t.y + "," + t.x + ")" //Flipped the coordinates for horizontal view of names
+			 		})
+
+			node.append("circle")
+				.attr("r", 5)
+				.attr("fill", "blue")
+
+			node.append("text")
+				.text(function (the_text){
+					return the_text.name
+				})
+
+			diagonal = d3.svg.diagonal()
+							 .projection(function (p){
+							 	return [p.y, p.x] //Flipped the coordinates for horizontal view of path
+							 })
+
+			canvas.selectAll(".link")
+				  .data(links)
+				  .enter()
+				  	.append("path")
+				  		.attr("class", "link")
+				  		.attr("fill", "none")
+				  		.attr("stroke", "#ADADAD")
+				  		.attr("d", diagonal)
+		})
+
+
+
+
+	</script>
+</body>	
