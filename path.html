@@ -1,0 +1,49 @@
+<script src="js/d3.v3.min.js"></script>
+
+
+<body>
+	<script>
+
+		width = 500
+	    height = 500
+
+		canvas = d3.select("body")
+				   .append("svg")
+				   .attr("width", width)
+				   .attr("height", height)
+
+
+		data = [
+			{x: 10, y: 20},
+			{x: 20, y: 60},
+			{x: 90, y: 70},
+			{x: 75, y: 80}
+		]
+
+		line = d3.svg.line()
+					 .x(function (x_cood){
+					 	return x_cood.x;
+					 })
+					 .y(function (y_cood){
+					 	return y_cood.y;
+					 })
+
+
+		group = canvas.append("g")
+					  .attr("transform", "translate(100,100)")
+
+
+		group.selectAll("path")
+			 .data([data])
+			 .enter()
+			 	.append("path")
+			 	.attr("d", line)
+			 	.attr("fill", "none")
+			 	.attr("stroke", "blue")
+			 	.attr("stroke-width", 10)
+
+
+
+
+	</script>
+</body>	

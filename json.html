@@ -1,0 +1,43 @@
+<script src="js/d3.v3.min.js"></script>
+
+
+<body>
+	<script>
+
+		width = 500
+	    height = 500
+
+		d3.json("data/south_park.js", function(person){
+			canvas = d3.select("body")
+					   .append("svg")
+					   .attr("width", width)
+					   .attr("height", height)
+
+			canvas.selectAll("rect")
+				  .data(person)
+				  .enter()
+				  	.append("rect")
+				  	.attr("width", function(w){
+				  		return w.age*10
+				  	})
+				  	.attr("height", 40)
+				  	.attr("y", function(vert, i){
+				  		return i*50
+				  	})
+				  	.attr("fill","blue")
+
+			canvas.selectAll("text")
+				  .data(person)
+				  .enter()
+				  	.append("text")
+				  	.attr("fill","white")
+				  	.attr("y", function(vert, i){
+				  		return i*50+24
+				  	})
+				  	.text(function (the_text){
+				  		return the_text.name+' - '+the_text.age;
+				  	})
+		})
+
+	</script>
+</body>	

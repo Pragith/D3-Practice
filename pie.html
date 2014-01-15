@@ -1,0 +1,58 @@
+<script src="js/d3.v3.min.js"></script>
+
+
+<body>
+	<script>
+
+		width = 1500
+	    height = 1500
+
+		canvas = d3.select("body")
+				   .append("svg")
+				   .attr("width", width)
+				   .attr("height", height)
+		
+		groups = canvas.append("g")
+					  .attr("transform", "translate(300,300)")
+
+		color = d3.scale.ordinal()
+						.range(["red", "blue", "orange"])
+
+
+
+		data = [10,80,50]
+		r = 300
+
+		arc = d3.svg.arc()
+					.innerRadius(0) //Change 0 to 200 for Donut
+					.outerRadius(r)
+
+		pie = d3.layout.pie()
+					   .value(function (val){
+					   		return val;
+					   })
+
+		arcs = groups.selectAll(".arc")
+					 .data(pie(data))
+					 .enter()
+					 	.append("g")
+					 	.attr("class","arc")
+
+		arcs.append("path")
+			.attr("d", arc)
+			.attr("fill", function(col){
+				return color(col.data)
+			})
+
+		arcs.append("text")
+			.attr("transform", function (d){
+				return "translate(" + arc.centroid(d) + ")"
+			})
+			.attr("text-anchor", "middle")
+			.attr("font-size","1.5em")
+			.text(function (the_text){
+				return the_text.data
+			})
+
+	</script>
+</body>	
